@@ -1,36 +1,43 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrls: ['./login.css']
 })
-export class Login {
+export class Login implements OnInit {
 
-  private router = inject(Router);
-  private fb = inject(FormBuilder);
+  loginForm!: FormGroup;
 
-  loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
-  });
+  constructor(
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
 
-  onLogin() {
-    // 🔹 Call your login API here and validate credentials
-
-    const isLoginSuccessful = true; // replace with real API result
-
-    if (isLoginSuccessful) {
-      this.router.navigate(['/home']);   // 👈 redirect to home
-    }
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
   }
 
-  goToSignup() {
+  onLogin(): void {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    console.log('Login Payload:', this.loginForm.value);
+
+    // TODO: call your auth service here
+    // this.authService.login(this.loginForm.value).subscribe(...)
+  }
+
+  goToSignup(): void {
     this.router.navigate(['/signup']);
   }
-
-  
 }
