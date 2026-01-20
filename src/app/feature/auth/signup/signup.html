@@ -1,1 +1,53 @@
-<h1>Sign Up Screen Comes Here</h1>
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Create Account</h2>
+    <p>Sign up to get started</p>
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+
+      <div class="input-group">
+        <label>Username</label>
+        <input type="text" formControlName="userName"
+               placeholder="Choose a username" />
+      </div>
+
+      <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" formControlName="name"
+               placeholder="Enter your full name" />
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" formControlName="email"
+               placeholder="Enter your email" />
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" formControlName="userPassword"
+               placeholder="Create a password" />
+      </div>
+
+      <div class="input-group">
+        <label>Upload Logo</label>
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+      </div>
+
+      <div class="preview" *ngIf="logoPreview">
+        <p>Logo Preview:</p>
+        <img [src]="logoPreview" alt="User logo preview" />
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="signupForm.invalid">
+        Sign Up
+      </button>
+
+      <p class="switch-text">
+        Already have an account?
+       <button type="button" (click)="goToLogin()">Login</button>
+      </p>
+
+    </form>
+  </div>
+</div>

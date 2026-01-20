@@ -1,0 +1,155 @@
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.auth-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 360px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 5px;
+}
+
+p {
+  color: gray;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 10px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-primary:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+.switch-text {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.switch-text a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.auth-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 380px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 5px;
+}
+
+p {
+  color: gray;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.preview img {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 10px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-primary:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+.switch-text {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.switch-text a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+}
+

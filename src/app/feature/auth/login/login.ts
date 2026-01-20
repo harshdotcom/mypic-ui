@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as UrlConstants from '../../../shared/Url-Constants'
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,11 @@ export class Login implements OnInit {
 
     // TODO: call your auth service here
     // this.authService.login(this.loginForm.value).subscribe(...)
+  }
+
+  signup(payload: any): void {
+    // console.log('Calling:', UrlConstants.AUTH.SIGNUP, payload);
+    // return of({ success: true });
   }
 
   goToSignup(): void {
