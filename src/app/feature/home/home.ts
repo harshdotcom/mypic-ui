@@ -8,6 +8,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { GalleriaModule } from 'primeng/galleria';
 import { SharedModule } from 'primeng/api';
 
+
 @Component({
   selector: 'app-home',
   imports: [CommonModule, ReactiveFormsModule, GalleriaModule, SharedModule],
@@ -25,6 +26,7 @@ export class Home implements OnInit {
   uploadForm: FormGroup;
   isUploading = false;
   searchControl: any;
+  //  responsiveOptions: any[];
 
   // Modal State
   showDeleteModal = false;
@@ -33,6 +35,7 @@ export class Home implements OnInit {
   // Gallery State
   selectedImageIndex: number = 0;
   displayCustom: boolean = false;
+  displayGalleria: boolean = false;
 
   responsiveOptions: any[] = [
     {
@@ -125,12 +128,7 @@ export class Home implements OnInit {
 
   openGallery(index: number) {
     this.selectedImageIndex = index;
-    this.displayCustom = true;
-  }
-
-  onActiveIndexChange(event: number) {
-      this.selectedImageIndex = event;
-      this.cdr.detectChanges();
+    this.displayGalleria = true;
   }
 
   deleteFile(fileId: any, event: Event) {
@@ -160,6 +158,10 @@ export class Home implements OnInit {
   cancelDelete() {
     this.showDeleteModal = false;
     this.fileToDeleteId = null;
+  }
+  
+  onActiveIndexChange(index: number) {
+    this.selectedImageIndex = index;
   }
 
   logout() {

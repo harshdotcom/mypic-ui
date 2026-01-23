@@ -35,7 +35,6 @@
             <p>Uploading...</p>
         </div>
 
-        <!-- Delete Confirmation Modal -->
         <div class="modal-backdrop" *ngIf="showDeleteModal">
             <div class="modal-card">
                 <h3>Delete File?</h3>
@@ -47,42 +46,36 @@
             </div>
         </div>
 
-        <!-- PrimeNG Galleria -->
-        <!-- PrimeNG Galleria -->
-        <!-- <p-galleria [value]="files" [(visible)]="displayCustom" [activeIndex]="selectedImageIndex"
-            (activeIndexChange)="onActiveIndexChange($event)" [responsiveOptions]="responsiveOptions"
-            [baseZIndex]="10000" [numVisible]="7" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
-            [showThumbnails]="false" [showIndicators]="true">
-            <ng-template pTemplate="item" let-item>
-                <img [src]="item.url || item.filePath" [alt]="item.originalName"
-                    style="width: 100%; display: block; max-height: 90vh; object-fit: contain; margin: 0 auto;" />
-            </ng-template>
-            <ng-template pTemplate="caption" let-item>
-                <h4 style="margin-bottom: .5rem; color: #ffffff; text-align: center;">{{item.originalName}}</h4>
-            </ng-template>
-        </p-galleria> -->
-
-
-
-        <p-galleria [value]="files" [(visible)]="displayCustom" [(activeIndex)]="selectedImageIndex"
-            [responsiveOptions]="responsiveOptions" [baseZIndex]="10000" [numVisible]="7" [circular]="true"
-            [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true">
-            <ng-template pTemplate="item" let-item>
-                <img [src]="item.url || item.filePath" [alt]="item.originalName" style="
-                width: 100%;
-                display: block;
-                max-height: 90vh;
-                object-fit: contain;
-                margin: 0 auto;
-            " />
+        <p-galleria
+        [(visible)]="displayGalleria"
+        [value]="files"
+        [numVisible]="5"
+        [fullScreen]="true"
+        [containerStyle]="{ 'max-width': '640px' }"
+        [(activeIndex)]="selectedImageIndex"
+        (activeIndexChange)="onActiveIndexChange($event)"
+        >
+            <ng-template #item let-item>
+                <img
+                [src]="item.url"
+                style="
+                    width: 100%;
+                    height: 100%;
+                    max-height: 70vh;
+                    object-fit: contain;
+                "
+                />
             </ng-template>
 
-            <ng-template pTemplate="caption" let-item>
-                <h4 style="margin-bottom: 0.5rem; color: #ffffff; text-align: center;">
-                    {{ item.originalName }}
-                </h4>
+            <ng-template #thumbnail let-item>
+                <img
+                [src]="item.url"
+                style="width: 60px; height: 60px; object-fit: cover;"
+                />
             </ng-template>
+
         </p-galleria>
+
 
     </main>
 </div>

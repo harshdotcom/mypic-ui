@@ -223,7 +223,7 @@
 
 /* Global override for PrimeNG Galleria Mask */
 ::ng-deep .p-galleria-mask {
-  background-color: rgba(0, 0, 0, 0.6) !important;
+  background-color: rgba(0, 0, 0, 0.9) !important;
 }
 
 /* Modal Styles */
