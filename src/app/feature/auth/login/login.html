@@ -1,6 +1,6 @@
 <div class="login-container">
   <div class="login-card">
-    <h2>Welcome Back</h2>
+    <h2>Welcome Back To MyPic</h2>
     <p>Please login to continue</p>
 
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
@@ -8,8 +8,7 @@
       <div class="input-group">
         <label>Email</label>
         <input type="email" formControlName="email" placeholder="Enter your email" />
-        <small class="error" 
-          *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].invalid">
+        <small class="error" *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].invalid">
           Valid email is required
         </small>
       </div>
@@ -17,8 +16,7 @@
       <div class="input-group">
         <label>Password</label>
         <input type="password" formControlName="password" placeholder="Enter your password" />
-        <small class="error"
-          *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid">
+        <small class="error" *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid">
           Password is required (min 6 chars)
         </small>
       </div>
