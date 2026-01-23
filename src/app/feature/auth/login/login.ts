@@ -4,9 +4,11 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import * as UrlConstants from '../../../shared/Url-Constants'
 
+import { HttpService } from '../../../shared/services/http.service';
+
 @Component({
   selector: 'app-login',
-   imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
@@ -16,7 +18,8 @@ export class Login implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private httpService: HttpService
   ) {}
 
   ngOnInit(): void {
@@ -32,15 +35,32 @@ export class Login implements OnInit {
       return;
     }
 
-    console.log('Login Payload:', this.loginForm.value);
+    const formValue = this.loginForm.value;
+    const payload = {
+      identifier: formValue.email,
+      userPassword: formValue.password
+    };
 
-    // TODO: call your auth service here
-    // this.authService.login(this.loginForm.value).subscribe(...)
+    console.log('Login Payload:', payload);
+
+    this.httpService.post(UrlConstants.loginUrl, {}, payload).subscribe({
+      next: (response: any) => {
+        console.log('Login Success:', response);
+        if (response && response.token) {
+          localStorage.setItem('token', response.token);
+          // Navigate to home or dashboard FIXME: Where to navigate? Assuming home for now
+           this.router.navigate(['/home']); 
+        }
+      },
+      error: (error) => {
+        console.error('Login Failed:', error);
+        alert('Login Failed: ' + (error.error?.message || error.message));
+      }
+    });
   }
 
   signup(payload: any): void {
-    // console.log('Calling:', UrlConstants.AUTH.SIGNUP, payload);
-    // return of({ success: true });
+     // unused
   }
 
   goToSignup(): void {

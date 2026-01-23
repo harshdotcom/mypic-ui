@@ -30,13 +30,13 @@
       </div>
 
       <div class="input-group">
-        <label>Upload Logo</label>
-        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+        <label>Logo URL</label>
+        <input type="text" formControlName="userLogoURL" placeholder="Enter image URL" />
       </div>
 
-      <div class="preview" *ngIf="logoPreview">
+      <div class="preview" *ngIf="signupForm.get('userLogoURL')?.value">
         <p>Logo Preview:</p>
-        <img [src]="logoPreview" alt="User logo preview" />
+        <img [src]="signupForm.get('userLogoURL')?.value" alt="User logo preview" (error)="signupForm.get('userLogoURL')?.value && $event.target['style'].display='none'" />
       </div>
 
       <button type="submit" class="btn-primary" [disabled]="signupForm.invalid">
