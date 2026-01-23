@@ -20,5 +20,6 @@ export const appConfig: ApplicationConfig = {
       return load(httpService);
     }),
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    provideAnimations()
     ] 
 };
