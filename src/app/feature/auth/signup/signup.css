@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');
+
+:host {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+}
+
 .auth-container {
   height: 100vh;
   display: flex;
@@ -10,17 +17,25 @@
   background: white;
   padding: 30px;
   border-radius: 12px;
-  width: 360px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 
 h2 {
   margin-bottom: 5px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: var(--logo-gradient, linear-gradient(135deg, #2563eb, #9333ea));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
 }
 
 p {
-  color: gray;
+  color: #6b7280;
   margin-bottom: 20px;
 }
 
@@ -33,6 +48,7 @@ label {
   display: block;
   font-weight: 600;
   margin-bottom: 5px;
+  color: #374151;
 }
 
 input {
@@ -40,116 +56,113 @@ input {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  /* Ensure padding doesn't affect width */
 }
 
 input:focus {
   outline: none;
   border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-.btn-primary {
-  width: 100%;
-  padding: 10px;
-  background: #667eea;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+.preview {
   margin-top: 10px;
-}
-
-.btn-primary:disabled {
-  background: gray;
-  cursor: not-allowed;
-}
-
-.switch-text {
-  margin-top: 15px;
-  font-size: 14px;
-}
-
-.switch-text a {
-  color: #667eea;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.auth-container {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-}
-
-.auth-card {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  width: 380px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
   text-align: center;
+  margin-bottom: 10px;
 }
 
-h2 {
+.preview p {
   margin-bottom: 5px;
-}
-
-p {
-  color: gray;
-  margin-bottom: 20px;
-}
-
-.input-group {
-  text-align: left;
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  font-size: 0.85rem;
 }
 
 .preview img {
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
-  margin-top: 10px;
-  border: 1px solid #ddd;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  /* Circle looks better for avatars */
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
 }
 
 .btn-primary {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background: #667eea;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   margin-top: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #5a67d8;
+  transform: translateY(-1px);
 }
 
 .btn-primary:disabled {
-  background: gray;
+  background: #cbd5e0;
   cursor: not-allowed;
+  transform: none;
 }
 
 .switch-text {
-  margin-top: 15px;
-  font-size: 14px;
+  margin-top: 20px;
+  font-size: 0.95rem;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 
-.switch-text a {
+/* Style the login button to look like a link or a secondary action */
+.btn-link {
+  background: transparent;
+  border: none;
   color: #667eea;
-  text-decoration: none;
   font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  text-decoration: underline;
+  transition: color 0.2s;
 }
 
+.btn-link:hover {
+  color: #5a67d8;
+}
+
+.auth-footer {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 1rem;
+}
+
+.auth-footer p {
+  margin: 4px 0;
+  color: #6b7280;
+}
+
+.dev-name {
+  font-weight: 700;
+  color: #2563eb;
+  /* Primary blue */
+}
+
+.version {
+  font-family: monospace;
+  opacity: 0.8;
+  font-size: 0.75rem;
+}

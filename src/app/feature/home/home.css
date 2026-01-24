@@ -34,7 +34,7 @@
   font-size: 1.5rem;
   font-weight: 700;
   /* background: linear-gradient(135deg, #667eea, #764ba2); */
-  background: linear-gradient(135deg, #2563eb, #9333ea);
+  background: var(--logo-gradient);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -104,6 +104,86 @@
 .btn-logout:hover {
   background: var(--bg-surface-hover);
   border-color: var(--text-secondary);
+}
+
+/* User Profile Header */
+.user-profile {
+  position: relative;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.avatar-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+  transition: border-color 0.2s;
+}
+
+.user-profile:hover .avatar-img {
+  border-color: var(--primary-color);
+}
+
+.user-popover {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  width: 250px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+  overflow: hidden;
+  animation: scaleIn 0.2s ease-out;
+}
+
+.popover-header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.user-info p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.user-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.user-email {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  word-break: break-all;
+}
+
+.popover-footer {
+  padding: 0.5rem;
+}
+
+.btn-logout-popover {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0.75rem;
+  text-align: left;
+  color: var(--danger-color);
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-logout-popover:hover {
+  background: var(--bg-surface-hover);
 }
 
 /* Gallery Content */
