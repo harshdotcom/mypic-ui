@@ -1,4 +1,84 @@
-<h1>Home Screen!!!!!!!!!!!!!</h1>
+<div class="home-container">
+    <header class="app-header">
+        <div class="logo">MyPics</div>
+        <div class="actions">
+            <button class="btn-theme" (click)="themeService.toggleTheme()" title="Toggle Theme">
+                <i class="pi" [ngClass]="themeService.theme() === 'light' ? 'pi-moon' : 'pi-sun'"></i>
+            </button>
+            <label class="btn-upload">
+                <input type="file" multiple accept=".jpg,.jpeg,.png" (change)="onFileSelected($event)" hidden />
+                <span>+ Upload Photos</span>
+            </label>
+            <button class="btn-logout" (click)="logout()">Logout</button>
+        </div>
+    </header>
+
+    <main class="gallery-content">
+        <div class="masonry-grid" *ngIf="files.length > 0; else noFiles">
+            <div class="masonry-item" *ngFor="let file of files; let i = index">
+                <div class="image-card" (click)="openGallery(i)">
+                    <img [src]="file.url || file.filePath" [alt]="file.originalName" loading="lazy" />
+                    <div class="overlay">
+                        <button class="btn-delete" (click)="deleteFile(file.id, $event)" title="Delete Image">
+                            &times;
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #noFiles>
+            <div class="empty-state">
+                <p>No photos yet. Upload some to get started!</p>
+            </div>
+        </ng-template>
+
+        <div class="loading-overlay" *ngIf="isUploading">
+            <div class="spinner"></div>
+            <p>Uploading...</p>
+        </div>
+
+        <div class="modal-backdrop" *ngIf="showDeleteModal">
+            <div class="modal-card">
+                <h3>Delete File?</h3>
+                <p>Are you sure you want to delete this file? This action cannot be undone.</p>
+                <div class="modal-actions">
+                    <button class="btn-cancel" (click)="cancelDelete()">Cancel</button>
+                    <button class="btn-danger" (click)="confirmDelete()">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <p-galleria
+        [(visible)]="displayGalleria"
+        [value]="files"
+        [numVisible]="5"
+        [fullScreen]="true"
+        [containerStyle]="{ 'max-width': '640px' }"
+        [(activeIndex)]="selectedImageIndex"
+        (activeIndexChange)="onActiveIndexChange($event)"
+        >
+            <ng-template #item let-item>
+                <img
+                [src]="item.url"
+                style="
+                    width: 100%;
+                    height: 100%;
+                    max-height: 70vh;
+                    object-fit: contain;
+                "
+                />
+            </ng-template>
+
+            <ng-template #thumbnail let-item>
+                <img
+                [src]="item.url"
+                style="width: 60px; height: 60px; object-fit: cover;"
+                />
+            </ng-template>
+
+        </p-galleria>
 
 
-<button (click)="logout()">Logout</button>
+    </main>
+</div>

@@ -13,16 +13,20 @@ export class HttpService {
   addNotesIconSub = new Subject<any>();
   addNotesIconObs = this.addNotesIconSub.asObservable();
   constructor(private httpClient: HttpClient) { }
-  setHttpHeaders() {
+  setHttpHeaders(isFormData = false) {
     var token = localStorage.getItem("token");
+    let headers = new HttpHeaders()
+      .set("Ocp-Apim-Subscription-Key", environment.ocpApiKey);
+
     if (token) {
-      this.httpHeaders = new HttpHeaders().set("Content-Type", "text/html;charset=utf-8")
-        .set("Ocp-Apim-Subscription-Key", environment.ocpApiKey)
-        .set("Authorization", "Bearer " + token)
-    } else {
-      this.httpHeaders = new HttpHeaders().set("Content-Type", "text/html;charset=utf-8")
-        .set("Ocp-Apim-Subscription-Key", environment.ocpApiKey)
+        headers = headers.set("Authorization", "Bearer " + token);
     }
+
+    if (!isFormData) {
+        headers = headers.set("Content-Type", "application/json");
+    }
+    
+    this.httpHeaders = headers;
     return this.httpHeaders;
   }
   reutrnHttpObj(url:any, metadata:any):Observable<any>{
@@ -44,8 +48,9 @@ export class HttpService {
         throw err
       }));
   }
-  post(url: string, queryParams = new Object(), data = new Object()): Observable<any> {
-    var httpHeaders = this.setHttpHeaders();
+  post(url: string, queryParams = new Object(), data: any = new Object()): Observable<any> {
+    const isFormData = data instanceof FormData;
+    var httpHeaders = this.setHttpHeaders(isFormData);
     var httpParams = this.getHttpParams(queryParams);
     let reqParams: any = { headers: httpHeaders, params: httpParams }
     return this.httpClient.post<any>(url, data, reqParams).pipe(

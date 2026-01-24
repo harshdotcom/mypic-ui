@@ -1,10 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as UrlConstants from '../../../shared/Url-Constants'
 
 import { HttpService } from '../../../shared/services/http.service';
+import { environment } from '../../../../environments/environment';
+
+declare global {
+  interface Window {
+    google: any;
+  }
+}
 
 @Component({
   selector: 'app-login',
@@ -19,13 +26,54 @@ export class Login implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+
+    this.initializeGoogleSignIn();
+  }
+
+  initializeGoogleSignIn() {
+    if (window.google) {
+      window.google.accounts.id.initialize({
+        client_id: environment.googleClientId,
+        callback: (response: any) => this.handleCredentialResponse(response)
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById("google-btn-wrapper"),
+        { theme: "outline", size: "large", width: "100%" } 
+      );
+    }
+  }
+
+  handleCredentialResponse(response: any) {
+    console.log("Encoded JWT ID token: " + response.credential);
+    
+    // We need to run inside Angular zone because this callback comes from outside
+    this.ngZone.run(() => {
+        const payload = {
+            idToken: response.credential
+        };
+        
+        this.httpService.post(UrlConstants.googleLoginUrl, {}, payload).subscribe({
+            next: (res: any) => {
+                console.log('Google Login Success:', res);
+                 if (res && res.token) {
+                    localStorage.setItem('token', res.token);
+                    this.router.navigate(['/home']);
+                }
+            },
+            error: (err) => {
+                console.error('Google Login Error:', err);
+                alert('Google Login Failed');
+            }
+        });
     });
   }
 
