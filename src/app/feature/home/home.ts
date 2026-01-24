@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../../shared/services/http.service';
+import { ThemeService } from '../../shared/services/theme.service';
 import * as UrlConstants from '../../shared/Url-Constants';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
@@ -21,6 +22,7 @@ export class Home implements OnInit {
   private httpService = inject(HttpService);
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
+  public themeService = inject(ThemeService);
 
   files: any[] = [];
   uploadForm: FormGroup;

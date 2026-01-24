@@ -11,12 +11,19 @@
   padding: 30px;
   border-radius: 12px;
   width: 350px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 
 h2 {
   margin-bottom: 5px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2563eb, #9333ea);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
 }
 
 p {
@@ -77,4 +84,24 @@ input:focus {
   border-radius: 6px;
   cursor: pointer;
   margin-top: 10px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1rem 0;
+  color: #6b7280;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.divider span {
+  padding: 0 10px;
+  font-size: 0.875rem;
 }

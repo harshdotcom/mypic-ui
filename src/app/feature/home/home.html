@@ -2,6 +2,9 @@
     <header class="app-header">
         <div class="logo">MyPics</div>
         <div class="actions">
+            <button class="btn-theme" (click)="themeService.toggleTheme()" title="Toggle Theme">
+                <i class="pi" [ngClass]="themeService.theme() === 'light' ? 'pi-moon' : 'pi-sun'"></i>
+            </button>
             <label class="btn-upload">
                 <input type="file" multiple accept=".jpg,.jpeg,.png" (change)="onFileSelected($event)" hidden />
                 <span>+ Upload Photos</span>
