@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../../shared/services/http.service';
 import { ThemeService } from '../../shared/services/theme.service';
@@ -28,6 +28,10 @@ export class Home implements OnInit {
   uploadForm: FormGroup;
   isUploading = false;
   searchControl: any;
+  
+  // User Profile State
+  user: any = null;
+  showUserPopover = false;
   //  responsiveOptions: any[];
 
   // Modal State
@@ -62,7 +66,35 @@ export class Home implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadUser();
     this.loadFiles();
+  }
+
+  loadUser() {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+        try {
+            this.user = JSON.parse(userStr);
+        } catch (e) {
+            console.error('Error parsing user data', e);
+        }
+    }
+  }
+
+  toggleUserPopover(event: Event) {
+    event.stopPropagation();
+    this.showUserPopover = !this.showUserPopover;
+  }
+  
+  closeUserPopover() {
+    this.showUserPopover = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (this.showUserPopover) {
+      this.closeUserPopover();
+    }
   }
 
   loadFiles() {
@@ -168,6 +200,7 @@ export class Home implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
 }

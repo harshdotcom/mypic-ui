@@ -66,6 +66,9 @@ export class Login implements OnInit {
                 console.log('Google Login Success:', res);
                  if (res && res.token) {
                     localStorage.setItem('token', res.token);
+                    if (res.user) {
+                        localStorage.setItem('user', JSON.stringify(res.user));
+                    }
                     this.router.navigate(['/home']);
                 }
             },
@@ -96,6 +99,9 @@ export class Login implements OnInit {
         console.log('Login Success:', response);
         if (response && response.token) {
           localStorage.setItem('token', response.token);
+          if (response.user) {
+            localStorage.setItem('user', JSON.stringify(response.user));
+          }
           // Navigate to home or dashboard FIXME: Where to navigate? Assuming home for now
            this.router.navigate(['/home']); 
         }

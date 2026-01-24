@@ -7,26 +7,22 @@
 
       <div class="input-group">
         <label>Username</label>
-        <input type="text" formControlName="userName"
-               placeholder="Choose a username" />
+        <input type="text" formControlName="userName" placeholder="Choose a username" />
       </div>
 
       <div class="input-group">
         <label>Full Name</label>
-        <input type="text" formControlName="name"
-               placeholder="Enter your full name" />
+        <input type="text" formControlName="name" placeholder="Enter your full name" />
       </div>
 
       <div class="input-group">
         <label>Email</label>
-        <input type="email" formControlName="email"
-               placeholder="Enter your email" />
+        <input type="email" formControlName="email" placeholder="Enter your email" />
       </div>
 
       <div class="input-group">
         <label>Password</label>
-        <input type="password" formControlName="userPassword"
-               placeholder="Create a password" />
+        <input type="password" formControlName="userPassword" placeholder="Create a password" />
       </div>
 
       <div class="input-group">
@@ -36,7 +32,8 @@
 
       <div class="preview" *ngIf="signupForm.get('userLogoURL')?.value">
         <p>Logo Preview:</p>
-        <img [src]="signupForm.get('userLogoURL')?.value" alt="User logo preview" (error)="signupForm.get('userLogoURL')?.value && $event.target['style'].display='none'" />
+        <img [src]="signupForm.get('userLogoURL')?.value" alt="User logo preview"
+          (error)="signupForm.get('userLogoURL')?.value && $event.target['style'].display='none'" />
       </div>
 
       <button type="submit" class="btn-primary" [disabled]="signupForm.invalid">
@@ -45,8 +42,13 @@
 
       <p class="switch-text">
         Already have an account?
-       <button type="button" (click)="goToLogin()">Login</button>
+        <button type="button" class="btn-link" (click)="goToLogin()">Login</button>
       </p>
+
+      <div class="auth-footer">
+        <p>Developed by <span class="dev-name">Harsh Jha</span></p>
+        <p class="version">v0.0.0</p>
+      </div>
 
     </form>
   </div>

@@ -13,22 +13,24 @@ body {
     --bg-primary: #f0f2f5;
     --bg-surface: #ffffff;
     --bg-surface-hover: #f3f4f6;
-    
+
     --text-primary: #1f2937;
     --text-secondary: #4b5563;
     --text-muted: #9ca3af;
-    
+
     --primary-color: #2563eb;
     --primary-hover: #1d4ed8;
-    
+
     --danger-color: #ef4444;
     --danger-hover: #dc2626;
-    
+
     --border-color: #e5e7eb;
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    
+
     --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+    --logo-gradient: linear-gradient(135deg, #2563eb, #9333ea);
 }
 
 [data-theme="dark"] {
@@ -36,20 +38,23 @@ body {
     --bg-primary: #111827;
     --bg-surface: #1f2937;
     --bg-surface-hover: #374151;
-    
+
     --text-primary: #f9fafb;
     --text-secondary: #d1d5db;
     --text-muted: #9ca3af;
-    
+
     --primary-color: #3b82f6;
     --primary-hover: #60a5fa;
-    
-    --danger-color: #ef4444; /* Keep red same or slightly lighter */
+
+    --danger-color: #ef4444;
+    /* Keep red same or slightly lighter */
     --danger-hover: #f87171;
-    
+
     --border-color: #374151;
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-    
+
     --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+    --logo-gradient: linear-gradient(135deg, #60a5fa, #c084fc);
 }
