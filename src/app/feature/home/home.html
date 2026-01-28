@@ -8,9 +8,16 @@
         </div>
 
         <div class="actions">
-            <select [formControl]="sortControl" class="sort-select">
-                <option *ngFor="let option of sortOptions" [value]="option.value">{{ option.label }}</option>
-            </select>
+            <div class="date-filters">
+                <p-datepicker [formControl]="startDateControl" placeholder="Start Date" dateFormat="yy-mm-dd"
+                    [showIcon]="false" [showButtonBar]="true" styleClass="date-input"></p-datepicker>
+                <span class="date-separator">-</span>
+                <p-datepicker [formControl]="endDateControl" placeholder="End Date" dateFormat="yy-mm-dd"
+                    [showIcon]="false" [showButtonBar]="true" styleClass="date-input"></p-datepicker>
+            </div>
+
+            <p-select [options]="sortOptions" [formControl]="sortControl" optionLabel="label" optionValue="value"
+                styleClass="sort-dropdown" placeholder="Sort By"></p-select>
 
             <button class="btn-theme" (click)="themeService.toggleTheme()" title="Toggle Theme">
                 <i class="pi" [ngClass]="themeService.theme() === 'light' ? 'pi-moon' : 'pi-sun'"></i>
