@@ -226,28 +226,113 @@
 }
 
 /* Sort Select */
-.sort-select {
-  padding: 0.6rem 2rem 0.6rem 1rem;
+/* Sort Dropdown */
+:host ::ng-deep .sort-dropdown {
+  border-radius: 99px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  transition: all 0.2s;
+  min-width: 150px;
+}
+
+:host ::ng-deep .sort-dropdown:hover {
+  background: var(--bg-surface-hover);
+}
+
+:host ::ng-deep .sort-dropdown.p-focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+:host ::ng-deep .sort-dropdown .p-select-label {
+  padding: 0.6rem 1rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+:host ::ng-deep .sort-dropdown .p-select-dropdown {
+  color: var(--text-muted);
+  margin-right: 20px;
+}
+
+/* Fix Dropdown Panel (Select Options) */
+:host ::ng-deep .p-select-overlay {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  margin-top: 4px;
+}
+
+:host ::ng-deep .p-select-list {
+  padding: 0.5rem;
+}
+
+:host ::ng-deep .p-select-option {
+  padding: 0.6rem 1rem;
+  color: var(--text-primary);
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+:host ::ng-deep .p-select-option:not(.p-select-option-selected):not(.p-disabled):hover {
+  background: var(--bg-surface-hover);
+}
+
+:host ::ng-deep .p-select-option.p-select-option-selected {
+  background: var(--primary-color);
+  color: white;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-buttonbar {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-top: 1px solid var(--border-color);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+:host ::ng-deep .p-datepicker-calendar-container .p-datepicker-calendar:last-child {
+  background: var(--bg-surface);
+  padding: 7px;
+}
+
+
+/* Date Filters */
+.date-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+}
+
+.date-separator {
+  color: var(--text-muted);
+}
+
+/* Override PrimeNG DatePicker styles */
+:host ::ng-deep .date-input .p-datepicker-input {
+  padding: 0.6rem 1rem;
   border-radius: 99px;
   border: 1px solid var(--border-color);
   background: var(--bg-surface);
   color: var(--text-primary);
   font-size: 0.9rem;
-  cursor: pointer;
-  outline: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 4.5L6 8L9.5 4.5' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
+  width: 140px;
   transition: all 0.2s;
 }
 
-.sort-select:hover {
+:host ::ng-deep .date-input .p-datepicker-input:hover {
   background-color: var(--bg-surface-hover);
 }
 
-.sort-select:focus {
+:host ::ng-deep .date-input .p-datepicker-input:focus {
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
 /* Loading Bar */

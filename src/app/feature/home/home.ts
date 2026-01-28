@@ -7,6 +7,8 @@ import * as UrlConstants from '../../shared/Url-Constants';
 import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { GalleriaModule } from 'primeng/galleria';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
 import { SharedModule } from 'primeng/api';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, map, startWith, tap, finalize } from 'rxjs/operators';
@@ -15,7 +17,7 @@ import { FileItem, SortOption } from '../../shared/models/app.models';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, ReactiveFormsModule, GalleriaModule, SharedModule],
+  imports: [CommonModule, ReactiveFormsModule, GalleriaModule, SharedModule, DatePickerModule, SelectModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -29,6 +31,8 @@ export class Home implements OnInit {
   // Reactive Controls
   searchControl = new FormControl('');
   sortControl = new FormControl('createdAt');
+  startDateControl = new FormControl<Date | null>(null);
+  endDateControl = new FormControl<Date | null>(null);
   
   // State Signals/Subjects
   private refresh$ = new BehaviorSubject<void>(void 0);
@@ -73,9 +77,17 @@ export class Home implements OnInit {
       startWith(this.sortControl.value)
     );
 
-    this.files$ = combineLatest([search$, sort$, this.refresh$]).pipe(
+    const startDate$ = this.startDateControl.valueChanges.pipe(
+      startWith(this.startDateControl.value)
+    );
+
+    const endDate$ = this.endDateControl.valueChanges.pipe(
+      startWith(this.endDateControl.value)
+    );
+
+    this.files$ = combineLatest([search$, sort$, startDate$, endDate$, this.refresh$]).pipe(
       tap(() => this.loading$.next(true)),
-      switchMap(([search, sortBy]) => {
+      switchMap(([search, sortBy, startDate, endDate]) => {
         let order = 'desc';
         let sortField = sortBy;
         
@@ -88,7 +100,9 @@ export class Home implements OnInit {
         const payload = {
           search: search || "",
           sortBy: sortField,
-          order: order
+          order: order,
+          startDate: startDate ? startDate.toISOString() : null,
+          endDate: endDate ? endDate.toISOString() : null
         };
 
         return this.httpService.post(UrlConstants.fileListUrl, {}, payload).pipe(
