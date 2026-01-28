@@ -1,13 +1,16 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpService } from '../../shared/services/http.service';
 import { ThemeService } from '../../shared/services/theme.service';
 import * as UrlConstants from '../../shared/Url-Constants';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { GalleriaModule } from 'primeng/galleria';
 import { SharedModule } from 'primeng/api';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, catchError, map, startWith, tap, finalize } from 'rxjs/operators';
+import { FileItem, SortOption } from '../../shared/models/app.models';
 
 
 @Component({
@@ -20,54 +23,94 @@ export class Home implements OnInit {
 
   private router = inject(Router);
   private httpService = inject(HttpService);
-  private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
   public themeService = inject(ThemeService);
 
-  files: any[] = [];
-  uploadForm: FormGroup;
-  isUploading = false;
-  searchControl: any;
+  // Reactive Controls
+  searchControl = new FormControl('');
+  sortControl = new FormControl('createdAt');
   
-  // User Profile State
+  // State Signals/Subjects
+  private refresh$ = new BehaviorSubject<void>(void 0);
+  
+  // Data Streams
+  files$: Observable<FileItem[]>;
+  loading$ = new BehaviorSubject<boolean>(false);
+  isUploading = false; // Kept as simple boolean for now, or could be reactive
+
+  // User & UI State
   user: any = null;
   showUserPopover = false;
-  //  responsiveOptions: any[];
-
-  // Modal State
   showDeleteModal = false;
   fileToDeleteId: any = null;
-
+  
   // Gallery State
   selectedImageIndex: number = 0;
-  displayCustom: boolean = false;
   displayGalleria: boolean = false;
+  
+  // Options
+  sortOptions: SortOption[] = [
+    { label: 'Newest First', value: 'createdAt' },
+    { label: 'Oldest First', value: 'oldest' }, // Handling mapped manually if backend supports order param
+    { label: 'Name (A-Z)', value: 'originalName' }
+  ];
 
   responsiveOptions: any[] = [
-    {
-        breakpoint: '1024px',
-        numVisible: 5
-    },
-    {
-        breakpoint: '768px',
-        numVisible: 3
-    },
-    {
-        breakpoint: '560px',
-        numVisible: 1
-    }
+    { breakpoint: '1024px', numVisible: 5 },
+    { breakpoint: '768px', numVisible: 3 },
+    { breakpoint: '560px', numVisible: 1 }
   ];
 
   constructor() {
-    this.uploadForm = this.fb.group({
-      // We don't strictly bind file input to form control for file objects usually, 
-      // but we can use it to reset or track validity if needed.
-    });
+    // Setup the main data stream
+    const search$ = this.searchControl.valueChanges.pipe(
+      startWith(this.searchControl.value),
+      debounceTime(300),
+      distinctUntilChanged()
+    );
+
+    const sort$ = this.sortControl.valueChanges.pipe(
+      startWith(this.sortControl.value)
+    );
+
+    this.files$ = combineLatest([search$, sort$, this.refresh$]).pipe(
+      tap(() => this.loading$.next(true)),
+      switchMap(([search, sortBy]) => {
+        let order = 'desc';
+        let sortField = sortBy;
+        
+        // Custom logic to handle 'oldest' mapping if backend expects field + order
+        if (sortBy === 'oldest') {
+            sortField = 'createdAt';
+            order = 'asc';
+        }
+
+        const payload = {
+          search: search || "",
+          sortBy: sortField,
+          order: order
+        };
+
+        return this.httpService.post(UrlConstants.fileListUrl, {}, payload).pipe(
+          map((res: any) => {
+            let list: FileItem[] = [];
+            if (Array.isArray(res)) list = res;
+            else if (res && Array.isArray(res.content)) list = res.content;
+            else if (res && Array.isArray(res.data)) list = res.data;
+            return list;
+          }),
+          catchError(err => {
+            console.error('Error loading files:', err);
+            return of([]);
+          }),
+          finalize(() => this.loading$.next(false))
+        );
+      })
+    );
   }
 
   ngOnInit(): void {
     this.loadUser();
-    this.loadFiles();
   }
 
   loadUser() {
@@ -97,35 +140,9 @@ export class Home implements OnInit {
     }
   }
 
-  loadFiles() {
-    const payload = {
-      search: "",
-      sortBy: "createdAt", 
-      order: "desc"
-    };
-    
-    this.httpService.post(UrlConstants.fileListUrl, {}, payload).subscribe({
-      next: (res: any) => {
-        console.log('Files API Response:', res);
-        
-        if (Array.isArray(res)) {
-            this.files = res;
-        } else if (res && Array.isArray(res.content)) {
-            this.files = res.content;
-        } else if (res && Array.isArray(res.data)) {
-            this.files = res.data;
-        } else {
-             this.files = [];
-             console.warn('Unexpected response format:', res);
-        }
-        
-        console.log('Mapped Files:', this.files);
-        this.cdr.detectChanges(); // Force UI update
-      },
-      error: (err) => {
-        console.error('Error loading files:', err);
-      }
-    });
+  // Refreshes the list (used after upload/delete)
+  refreshList() {
+    this.refresh$.next();
   }
 
   onFileSelected(event: any) {
@@ -148,8 +165,7 @@ export class Home implements OnInit {
       next: (res) => {
         console.log('Upload success:', res);
         this.isUploading = false;
-        this.cdr.detectChanges(); // Force UI update
-        this.loadFiles(); // Refresh list
+        this.refreshList(); // Trigger refresh
       },
       error: (err) => {
         console.error('Upload error:', err);
@@ -178,7 +194,7 @@ export class Home implements OnInit {
     this.httpService.delete(url, {}).subscribe({
       next: (res) => {
         console.log('Delete success:', res);
-        this.files = this.files.filter(f => f.id !== this.fileToDeleteId);
+        this.refreshList(); // Trigger refresh
         this.cancelDelete(); // Close modal
       },
       error: (err) => {
